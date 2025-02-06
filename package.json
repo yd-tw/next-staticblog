@@ -1,0 +1,25 @@
+{
+  "name": "next-staticblog",
+  "version": "0.1.2",
+  "description": "在 Next.js 專案中快速配置 markdown 組件，建立部落格頁面！",
+  "license": "MIT",
+  "author": "twyd",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "next.js",
+    "markdown",
+    "blog"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "typescript": "^5.7.3"
+  }
+}
