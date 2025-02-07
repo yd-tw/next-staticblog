@@ -1,6 +1,6 @@
 {
   "name": "next-staticblog",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Quickly configure the markdown component in the Next.js project and create a blog page!",
   "homepage": "https://github.com/yd-tw/next-staticblog",
   "license": "MIT",
