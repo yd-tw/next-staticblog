@@ -2,25 +2,25 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const DEFAULT_POSTS_PATH = "posts";
+const postsDirectory = path.join(process.cwd(), "posts");
 
-export function getAllPostSlugs(filePath: string = DEFAULT_POSTS_PATH) {
-  return fs.readdirSync(path.join(process.cwd(), filePath));
+export function getAllPostSlugs() {
+  return fs.readdirSync(postsDirectory);
 }
 
-export function getAllPosts(filePath: string = DEFAULT_POSTS_PATH) {
-  const slugs = getAllPostSlugs(filePath);
-  return slugs.map((slug) => getPostBySlug(filePath, slug));
+export function getAllPosts() {
+  const slugs = getAllPostSlugs();
+  return slugs.map((slug) => getPostBySlug(slug));
 }
 
-export function getAllPostParams(filePath: string = DEFAULT_POSTS_PATH) {
-  const slugs = getAllPostSlugs(filePath);
+export function getAllPostParams(){
+  const slugs = getAllPostSlugs();
   return slugs.map((slug) => ({ slug: slug.replace(/\.md$/, "") }));
 }
 
-export function getPostBySlug(filePath: string = DEFAULT_POSTS_PATH, slug: string) {
+export function getPostBySlug(slug: string) {
   const realSlug = slug.replace(/\.md$/, "");
-  const fullPath = path.join(process.cwd(), filePath, `${realSlug}.md`);
+  const fullPath = path.join(postsDirectory, `${realSlug}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 

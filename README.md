@@ -1,3 +1,3 @@
 # next-staticblog
 
-在 Next.js 專案中快速配置 markdown 組件，建立部落格頁面！
+Quickly configure the markdown component in the Next.js project and create a blog page!
