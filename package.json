@@ -15,15 +15,15 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run"
   },
   "dependencies": {
     "gray-matter-es": "^0.2.1"
   },
   "devDependencies": {
     "@types/node": "^24.10.13",
+    "@vitest/coverage-v8": "^4.0.18",
     "typescript": "^5.9.3",
-    "vitest": "^3.0.0"
+    "vitest": "^4.0.18"
   }
 }
