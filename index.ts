@@ -39,9 +39,11 @@ export function getAllPostSlugs(directory: string = "posts/") {
   return fs.readdirSync(postsDirectory);
 }
 
-export function getAllPosts(directory: string = "posts/") {
+export function getAllPosts<
+  T extends Record<string, unknown> = Record<string, unknown>,
+>(directory: string = "posts/"): { slug: string; metadata: T; content: string }[] {
   const slugs = getAllPostSlugs(directory);
-  return slugs.map((slug) => getPostBySlug(slug, directory));
+  return slugs.map((slug) => getPostBySlug<T>(slug, directory));
 }
 
 export function getAllPostParams(directory: string = "posts/") {
@@ -49,12 +51,17 @@ export function getAllPostParams(directory: string = "posts/") {
   return slugs.map((slug) => ({ slug: slug.replace(/\.md$/, "") }));
 }
 
-export function getPostBySlug(slug: string, directory: string = "posts/") {
+export function getPostBySlug<
+  T extends Record<string, unknown> = Record<string, unknown>,
+>(
+  slug: string,
+  directory: string = "posts/",
+): { slug: string; metadata: T; content: string } {
   const realSlug = slug.replace(/\.md$/, "");
   const postsDirectory = path.join(process.cwd(), directory);
   const fullPath = path.join(postsDirectory, `${realSlug}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = parseFrontmatter(fileContents);
 
-  return { slug: realSlug, metadata: data, content };
+  return { slug: realSlug, metadata: data as T, content };
 }
