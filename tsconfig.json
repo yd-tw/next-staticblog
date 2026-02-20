@@ -10,5 +10,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "exclude": ["tests", "node_modules", "dist"],
+  "exclude": ["tests", "node_modules", "dist", "gray-matter-es", "tsdown.config.ts"],
 }
