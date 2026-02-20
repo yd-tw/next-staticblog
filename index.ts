@@ -1,10 +1,16 @@
 import fs from "fs";
 import path from "path";
-import { parse as parseYaml } from "@jsr/std__yaml";
+import { parse } from "@std/yaml";
 
-function parseFrontmatter(input: string): { data: Record<string, unknown>; content: string } {
+function parseFrontmatter(input: string): {
+  data: Record<string, unknown>;
+  content: string;
+} {
   const delimiter = "---";
-  if (!input.startsWith(delimiter + "\n") && !input.startsWith(delimiter + "\r\n")) {
+  if (
+    !input.startsWith(delimiter + "\n") &&
+    !input.startsWith(delimiter + "\r\n")
+  ) {
     return { data: {}, content: input };
   }
 
@@ -19,7 +25,7 @@ function parseFrontmatter(input: string): { data: Record<string, unknown>; conte
   if (content.startsWith("\r\n")) content = content.slice(2);
   else if (content.startsWith("\n")) content = content.slice(1);
 
-  const parsed = parseYaml(yamlStr);
+  const parsed = parse(yamlStr);
   const data =
     typeof parsed === "object" && parsed !== null && !Array.isArray(parsed)
       ? (parsed as Record<string, unknown>)

@@ -26,7 +26,7 @@ describe("getAllPostSlugs", () => {
   it("returns filenames from default posts directory", () => {
     const slugs = getAllPostSlugs();
     expect(slugs).toEqual(
-      expect.arrayContaining(["hello-world.md", "second-post.md"])
+      expect.arrayContaining(["hello-world.md", "second-post.md"]),
     );
   });
 
@@ -48,7 +48,10 @@ describe("getAllPostParams", () => {
   it("returns slug params without .md extension", () => {
     const params = getAllPostParams();
     expect(params).toEqual(
-      expect.arrayContaining([{ slug: "hello-world" }, { slug: "second-post" }])
+      expect.arrayContaining([
+        { slug: "hello-world" },
+        { slug: "second-post" },
+      ]),
     );
   });
 
@@ -73,7 +76,9 @@ describe("getPostBySlug", () => {
     const post = getPostBySlug("hello-world");
     expect(post.slug).toBe("hello-world");
     expect(post.metadata.title).toBe("Hello World");
-    expect(post.content).toContain("This is the content of the hello world post.");
+    expect(post.content).toContain(
+      "This is the content of the hello world post.",
+    );
   });
 
   // 使用含 .md 副檔名的 slug 取得文章資料

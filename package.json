@@ -1,6 +1,6 @@
 {
   "name": "next-staticblog",
-  "version": "0.2.0-beta.2",
+  "version": "0.2.0-beta.3",
   "description": "Quickly configure the markdown component in the Next.js project and create a blog page!",
   "homepage": "https://github.com/yd-tw/next-staticblog",
   "license": "MIT",
@@ -15,12 +15,14 @@
   ],
   "scripts": {
     "build": "tsdown && tsc --emitDeclarationOnly --outDir dist",
+    "format": "prettier --write .",
     "test": "vitest run"
   },
   "devDependencies": {
-    "@jsr/std__yaml": "^1.0.10",
+    "@std/yaml": "npm:@jsr/std__yaml@^1.0.12",
     "@types/node": "^24.10.13",
     "@vitest/coverage-v8": "^4.0.18",
+    "prettier": "^3.8.1",
     "tsdown": "^0.12.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
