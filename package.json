@@ -11,7 +11,10 @@
   "keywords": [
     "next.js",
     "markdown",
-    "blog"
+    "yaml",
+    "formatter",
+    "blog",
+    "post"
   ],
   "scripts": {
     "build": "tsdown && tsc --emitDeclarationOnly --outDir dist",
