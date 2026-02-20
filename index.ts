@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import matter from "gray-matter-es";
+import { matter } from "gray-matter-es";
 
 export function getAllPostSlugs(directory: string = "posts/") {
   const postsDirectory = path.join(process.cwd(), directory);
