@@ -6,6 +6,7 @@ import {
   getAllPosts,
   getAllPostParams,
   getPostBySlug,
+  parseFrontmatter,
 } from "../index.ts";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -116,6 +117,79 @@ describe("getPostBySlug", () => {
     const postWithoutExt = getPostBySlug("hello-world");
     expect(postWithExt.slug).toBe("hello-world");
     expect(postWithoutExt.slug).toBe("hello-world");
+  });
+});
+
+describe("parseFrontmatter", () => {
+  // 正確解析標準 frontmatter 並回傳 data 與 content
+  it("parses standard frontmatter and returns data and content", () => {
+    const input = "---\ntitle: Hello\nauthor: yd\n---\n\nContent here";
+    const { data, content } = parseFrontmatter(input);
+    expect(data.title).toBe("Hello");
+    expect(data.author).toBe("yd");
+    expect(content).toContain("Content here");
+  });
+
+  // 輸入不含 frontmatter 時回傳空 data 和原始內容
+  it("returns empty data and original input when no frontmatter", () => {
+    const input = "Just plain content without frontmatter.";
+    const { data, content } = parseFrontmatter(input);
+    expect(data).toEqual({});
+    expect(content).toBe(input);
+  });
+
+  // 缺少結尾 --- 時回傳空 data 和原始內容
+  it("returns empty data when closing delimiter is missing", () => {
+    const input = "---\ntitle: Hello\n";
+    const { data, content } = parseFrontmatter(input);
+    expect(data).toEqual({});
+    expect(content).toBe(input);
+  });
+
+  // 正確處理 Windows 換行符號 (CRLF)
+  it("handles Windows line endings (CRLF)", () => {
+    const input = "---\r\ntitle: Hello\r\n---\r\n\r\nContent here";
+    const { data, content } = parseFrontmatter(input);
+    expect(data.title).toBe("Hello");
+    expect(content).toContain("Content here");
+  });
+
+  // 回傳內容不包含 frontmatter 區塊
+  it("strips frontmatter block from content", () => {
+    const input = "---\ntitle: Hello\n---\n\nContent here";
+    const { content } = parseFrontmatter(input);
+    expect(content).not.toContain("---");
+    expect(content).not.toContain("title:");
+  });
+
+  // @std/yaml 自動將裸 ISO 日期字串轉為 Date 物件
+  it("auto-converts bare ISO date strings to Date objects", () => {
+    const input = "---\ndate: 2024-01-01\n---\n\nContent";
+    const { data } = parseFrontmatter(input);
+    expect(data.date).toBeInstanceOf(Date);
+    expect(data.date).toEqual(new Date("2024-01-01"));
+  });
+
+  // 正確解析含陣列的 YAML 欄位
+  it("parses YAML array fields correctly", () => {
+    const input = "---\ntitle: Hello\ntags:\n  - foo\n  - bar\n---\n\nContent";
+    const { data } = parseFrontmatter(input);
+    expect(data.tags).toEqual(["foo", "bar"]);
+  });
+
+  // 當 YAML 根節點為陣列時回傳空 data
+  it("returns empty data when YAML root is an array", () => {
+    const input = "---\n- item1\n- item2\n---\n\nContent";
+    const { data } = parseFrontmatter(input);
+    expect(data).toEqual({});
+  });
+
+  // 空 frontmatter 區塊回傳空 data
+  it("returns empty data for empty frontmatter block", () => {
+    const input = "---\n---\n\nContent";
+    const { data, content } = parseFrontmatter(input);
+    expect(data).toEqual({});
+    expect(content).toContain("Content");
   });
 });
 

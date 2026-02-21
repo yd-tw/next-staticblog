@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { parse } from "@std/yaml";
 
-function parseFrontmatter(input: string): {
+export function parseFrontmatter(input: string): {
   data: Record<string, unknown>;
   content: string;
 } {

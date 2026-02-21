@@ -143,6 +143,38 @@ const params = getAllPostParams();
 
 ---
 
+### `parseFrontmatter(input)`
+
+Parses a raw markdown string and extracts YAML frontmatter metadata. Useful when you have markdown content not loaded from the filesystem, or when you need lower-level parsing control.
+
+```typescript
+import { parseFrontmatter } from "next-staticblog";
+
+const raw = `---
+title: Hello World
+date: 2024-01-01
+tags:
+  - blog
+---
+
+Welcome to my blog!`;
+
+const { data, content } = parseFrontmatter(raw);
+// data:    { title: 'Hello World', date: '2024-01-01', tags: ['blog'] }
+// content: '\nWelcome to my blog!'
+```
+
+| Parameter | Type     | Description                          |
+| --------- | -------- | ------------------------------------ |
+| `input`   | `string` | Raw markdown string with frontmatter |
+
+**Returns:** `{ data: Record<string, unknown>; content: string }`
+
+- `data` — parsed YAML frontmatter as a plain object. Returns `{}` if no valid frontmatter is found.
+- `content` — the markdown body after the frontmatter block.
+
+---
+
 ## Usage with Next.js
 
 ### App Router (Next.js 13+)
