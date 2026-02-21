@@ -1,6 +1,6 @@
 {
   "name": "next-staticblog",
-  "version": "0.2.0-beta.5",
+  "version": "0.2.0-beta.6",
   "description": "Load the article and parse the YAML into Next.js!",
   "homepage": "https://github.com/yd-tw/next-posts",
   "license": "MIT",
