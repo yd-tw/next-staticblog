@@ -154,6 +154,22 @@ describe("parseFrontmatter", () => {
     expect(content).toContain("Content here");
   });
 
+  // 關閉分隔符後緊接 CRLF 時，正確去除開頭的 \r\n
+  it("strips leading CRLF after closing delimiter", () => {
+    const input = "---\r\ntitle: Hello\r\n---\r\nContent here";
+    const { data, content } = parseFrontmatter(input);
+    expect(data.title).toBe("Hello");
+    expect(content).toBe("Content here");
+  });
+
+  // 關閉分隔符後無換行符時，內容保持原樣不做裁切
+  it("preserves content when no newline follows closing delimiter", () => {
+    const input = "---\ntitle: Hello\n---Content here";
+    const { data, content } = parseFrontmatter(input);
+    expect(data.title).toBe("Hello");
+    expect(content).toBe("Content here");
+  });
+
   // 回傳內容不包含 frontmatter 區塊
   it("strips frontmatter block from content", () => {
     const input = "---\ntitle: Hello\n---\n\nContent here";

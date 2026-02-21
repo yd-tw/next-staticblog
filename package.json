@@ -19,7 +19,8 @@
   "scripts": {
     "build": "tsdown && tsc --emitDeclarationOnly --outDir dist",
     "format": "prettier --write .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "@std/yaml": "npm:@jsr/std__yaml@^1.0.12",
