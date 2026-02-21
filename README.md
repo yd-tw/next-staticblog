@@ -54,7 +54,7 @@ Welcome to my blog!
 Then use the library in your Next.js pages:
 
 ```typescript
-import { getAllPosts, getPostBySlug, getAllPostParams } from 'next-staticblog';
+import { getAllPosts, getPostBySlug, getAllPostParams } from "next-staticblog";
 
 interface PostMeta {
   title: string;
@@ -66,7 +66,7 @@ interface PostMeta {
 const posts = getAllPosts<PostMeta>();
 
 // Get a single post
-const post = getPostBySlug<PostMeta>('hello-world');
+const post = getPostBySlug<PostMeta>("hello-world");
 
 // Generate static paths (Next.js)
 const paths = getAllPostParams();
@@ -83,9 +83,9 @@ const posts = getAllPosts<PostMeta>();
 // [{ slug: 'hello-world', metadata: { title: '...' }, content: '...' }, ...]
 ```
 
-| Parameter   | Type     | Default    | Description                        |
-| ----------- | -------- | ---------- | ---------------------------------- |
-| `directory` | `string` | `"posts/"` | Path relative to `process.cwd()`  |
+| Parameter   | Type     | Default    | Description                      |
+| ----------- | -------- | ---------- | -------------------------------- |
+| `directory` | `string` | `"posts/"` | Path relative to `process.cwd()` |
 
 **Returns:** `Array<{ slug: string; metadata: T; content: string }>`
 
@@ -96,14 +96,14 @@ const posts = getAllPosts<PostMeta>();
 Returns a single post by slug. Accepts slugs with or without the `.md` extension.
 
 ```typescript
-const post = getPostBySlug<PostMeta>('hello-world');
+const post = getPostBySlug<PostMeta>("hello-world");
 // { slug: 'hello-world', metadata: { title: 'Hello World', ... }, content: '...' }
 ```
 
-| Parameter   | Type     | Default    | Description                        |
-| ----------- | -------- | ---------- | ---------------------------------- |
-| `slug`      | `string` | —          | Filename with or without `.md`     |
-| `directory` | `string` | `"posts/"` | Path relative to `process.cwd()`  |
+| Parameter   | Type     | Default    | Description                      |
+| ----------- | -------- | ---------- | -------------------------------- |
+| `slug`      | `string` | —          | Filename with or without `.md`   |
+| `directory` | `string` | `"posts/"` | Path relative to `process.cwd()` |
 
 **Returns:** `{ slug: string; metadata: T; content: string }`
 
@@ -118,9 +118,9 @@ const slugs = getAllPostSlugs();
 // ['hello-world.md', 'getting-started.md']
 ```
 
-| Parameter   | Type     | Default    | Description                        |
-| ----------- | -------- | ---------- | ---------------------------------- |
-| `directory` | `string` | `"posts/"` | Path relative to `process.cwd()`  |
+| Parameter   | Type     | Default    | Description                      |
+| ----------- | -------- | ---------- | -------------------------------- |
+| `directory` | `string` | `"posts/"` | Path relative to `process.cwd()` |
 
 **Returns:** `string[]`
 
@@ -135,9 +135,9 @@ const params = getAllPostParams();
 // [{ slug: 'hello-world' }, { slug: 'getting-started' }]
 ```
 
-| Parameter   | Type     | Default    | Description                        |
-| ----------- | -------- | ---------- | ---------------------------------- |
-| `directory` | `string` | `"posts/"` | Path relative to `process.cwd()`  |
+| Parameter   | Type     | Default    | Description                      |
+| ----------- | -------- | ---------- | -------------------------------- |
+| `directory` | `string` | `"posts/"` | Path relative to `process.cwd()` |
 
 **Returns:** `Array<{ slug: string }>`
 
@@ -178,8 +178,8 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
 ```typescript
 // pages/blog/[slug].tsx
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { getAllPostParams, getPostBySlug } from 'next-staticblog';
+import { GetStaticPaths, GetStaticProps } from "next";
+import { getAllPostParams, getPostBySlug } from "next-staticblog";
 
 interface PostMeta {
   title: string;
@@ -203,8 +203,8 @@ All functions accept an optional `directory` parameter:
 
 ```typescript
 // Use a custom directory
-const posts = getAllPosts('content/articles/');
-const post  = getPostBySlug('my-article', 'content/articles/');
+const posts = getAllPosts("content/articles/");
+const post = getPostBySlug("my-article", "content/articles/");
 ```
 
 ## Development

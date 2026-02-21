@@ -41,7 +41,9 @@ export function getAllPostSlugs(directory: string = "posts/") {
 
 export function getAllPosts<
   T extends Record<string, unknown> = Record<string, unknown>,
->(directory: string = "posts/"): { slug: string; metadata: T; content: string }[] {
+>(
+  directory: string = "posts/",
+): { slug: string; metadata: T; content: string }[] {
   const slugs = getAllPostSlugs(directory);
   return slugs.map((slug) => getPostBySlug<T>(slug, directory));
 }
