@@ -1,12 +1,10 @@
-以下為英文版本翻譯：
-
----
-
 # next-posts
 
 > Load posts and parse YAML into Next.js!
 
 A lightweight, zero-dependency TypeScript library for building static blog posts and content pages in Next.js. It parses Markdown files with YAML frontmatter and provides simple utility functions designed for use with SSG (Static Site Generation).
+
+[中文](/README-zh.md)
 
 ---
 
