@@ -39,9 +39,7 @@ export function getAllPostSlugs(directory: string = "posts/") {
   return fs.readdirSync(postsDirectory);
 }
 
-export function getAllPosts<
-  T extends Record<string, unknown> = Record<string, unknown>,
->(
+export function getAllPosts<T extends object = Record<string, unknown>>(
   directory: string = "posts/",
 ): { slug: string; metadata: T; content: string }[] {
   const slugs = getAllPostSlugs(directory);
@@ -53,9 +51,7 @@ export function getAllPostParams(directory: string = "posts/") {
   return slugs.map((slug) => ({ slug: slug.replace(/\.md$/, "") }));
 }
 
-export function getPostBySlug<
-  T extends Record<string, unknown> = Record<string, unknown>,
->(
+export function getPostBySlug<T extends object = Record<string, unknown>>(
   slug: string,
   directory: string = "posts/",
 ): { slug: string; metadata: T; content: string } {
