@@ -72,6 +72,13 @@ const post = getPostBySlug<PostMeta>("hello-world");
 const paths = getAllPostParams();
 ```
 
+### 模板
+
+你也可以從模板開始：
+
+- [next-profile-template](https://github.com/yd-tw/next-profile-template)
+- [kuang-ti-web](https://github.com/yd-tw/kuang-ti-web)
+
 ---
 
 ## API
@@ -271,7 +278,8 @@ const post = getPostBySlug("my-article", "content/articles/");
 
 2. 明確的型別：
 
-在 `v0.x` 版本中使用 `any` 來定義 `metadata`，在 `v1.x` 版本中改為使用 `unknown` 來提升安全性。
+在 `v0.x` 版本中使用 `any` 來定義 `metadata`，
+在 `v1.x` 版本中改為使用 `unknown` 來提升安全性。
 請閱讀文檔瞭解如何傳入泛型，擁有安全的型別。
 
 除此之外套件移除了 `gray-matter` 並改用 `@std/yaml` 進行解析。雖然變更通過了所有的測試，但仍然可能在部分非標準用法上有細微差異。
@@ -282,23 +290,21 @@ const post = getPostBySlug("my-article", "content/articles/");
 
 ### no such file or directory
 
-這個套件是專為 SSG 打造的，因為這樣才能確保最高效率。因此若你在動態路由中使用 `next-posts` 將有可能導致錯誤。
-幸運的是通常你只需要使用 `getAllPostParams()` 並結合 `generateStaticParams()` 就能使用 `SSG`。 
+我們推薦你使用 SSG 建置，因為這樣才能確保最高效率。因此若你在動態路由中使用 `next-posts` 將有可能導致錯誤。
+幸運的是通常你只需要使用 `getAllPostParams()` 並結合 `generateStaticParams()` 就能使用 `SSG`。
 
 ```ts
 Error: ENOENT: no such file or directory, scandir '/var/task/posts/news/zh'
-    at j (.next/server/chunks/ssr/[root-of-the-server]__51ddec80._.js:3:1604) {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'scandir',
-  path: '/var/task/posts/news/zh',
-  digest: '3910850437'
-}
 ```
 
-你可以透過建置資訊來確認路由類型，他應該是「●  (SSG)」。
+但若你堅持使用動態路由，則需要在 next.config.ts 添加設置以確保文章能夠被包含。
 
-這是最佳化的考量但並不排斥添加動態渲染功能。如果你需要這樣的功能，歡迎使用 PR 貢獻。
+```ts
+// next.config.ts
+outputFileTracingIncludes: {
+  "/**": ["./posts/**/*.{md,mdx}"],
+},
+```
 
 ---
 

@@ -1,34 +1,38 @@
-# next-staticblog
+以下為英文版本翻譯：
 
-> Quickly configure the markdown component in a Next.js project and create a blog page!
+---
 
-A lightweight, zero-runtime-dependency TypeScript library for building static blogs in Next.js. It parses markdown files with YAML frontmatter and provides simple utilities to retrieve posts for use with static site generation (SSG).
+# next-posts
+
+> Load posts and parse YAML into Next.js!
+
+A lightweight, zero-dependency TypeScript library for building static blog posts and content pages in Next.js. It parses Markdown files with YAML frontmatter and provides simple utility functions designed for use with SSG (Static Site Generation).
+
+---
 
 ## Features
 
-- Zero runtime dependencies — uses Node.js built-ins only
-- Full TypeScript support with generic metadata types
-- Works with any directory structure
-- Handles both `slug` and `slug.md` inputs transparently
+- Zero runtime dependencies — only uses built-in Node.js modules
+- Full TypeScript support (generic metadata support)
+- Supports arbitrary directory structures
+- Accepts both `slug` and `slug.md` formats
 - Compatible with Next.js App Router and Pages Router
+
+---
 
 ## Installation
 
-```bash
-npm install next-staticblog
-```
+Install using npm or your preferred package manager:
 
 ```bash
-pnpm add next-staticblog
+npm install next-posts
 ```
 
-```bash
-yarn add next-staticblog
-```
+---
 
 ## Quick Start
 
-Place your markdown files in a `posts/` directory at the project root:
+Create a `posts/` directory in your project root and add Markdown files:
 
 ```
 my-next-app/
@@ -37,7 +41,7 @@ my-next-app/
     └── getting-started.md
 ```
 
-Each file should contain a YAML frontmatter block followed by the post content:
+Each file should contain a YAML frontmatter block and content:
 
 ```markdown
 ---
@@ -51,10 +55,10 @@ tags:
 Welcome to my blog!
 ```
 
-Then use the library in your Next.js pages:
+Then use it in your Next.js project:
 
-```typescript
-import { getAllPosts, getPostBySlug, getAllPostParams } from "next-staticblog";
+```ts
+import { getAllPosts, getPostBySlug, getAllPostParams } from "next-posts";
 
 interface PostMeta {
   title: string;
@@ -72,48 +76,66 @@ const post = getPostBySlug<PostMeta>("hello-world");
 const paths = getAllPostParams();
 ```
 
+### Template
+
+You can also start with a template：
+
+- [next-profile-template](https://github.com/yd-tw/next-profile-template)
+- [kuang-ti-web](https://github.com/yd-tw/kuang-ti-web)
+
+---
+
 ## API
 
 ### `getAllPosts<T>(directory?)`
 
-Returns all posts from the specified directory, each with parsed frontmatter and content.
+Returns all posts from the specified directory, including parsed frontmatter and content.
 
-```typescript
+```ts
 const posts = getAllPosts<PostMeta>();
-// [{ slug: 'hello-world', metadata: { title: '...' }, content: '...' }, ...]
+// [
+//   { slug: 'hello-world', metadata: { title: '...' }, content: '...' },
+//   ...
+// ]
 ```
 
 | Parameter   | Type     | Default    | Description                      |
 | ----------- | -------- | ---------- | -------------------------------- |
 | `directory` | `string` | `"posts/"` | Path relative to `process.cwd()` |
 
-**Returns:** `Array<{ slug: string; metadata: T; content: string }>`
+**Return type:**
+`Array<{ slug: string; metadata: T; content: string }>`
 
 ---
 
 ### `getPostBySlug<T>(slug, directory?)`
 
-Returns a single post by slug. Accepts slugs with or without the `.md` extension.
+Returns a single post by slug. Supports both with and without the `.md` extension.
 
-```typescript
+```ts
 const post = getPostBySlug<PostMeta>("hello-world");
-// { slug: 'hello-world', metadata: { title: 'Hello World', ... }, content: '...' }
+// {
+//   slug: 'hello-world',
+//   metadata: { title: 'Hello World', ... },
+//   content: '...'
+// }
 ```
 
 | Parameter   | Type     | Default    | Description                      |
 | ----------- | -------- | ---------- | -------------------------------- |
-| `slug`      | `string` | —          | Filename with or without `.md`   |
+| `slug`      | `string` | —          | Filename (with or without `.md`) |
 | `directory` | `string` | `"posts/"` | Path relative to `process.cwd()` |
 
-**Returns:** `{ slug: string; metadata: T; content: string }`
+**Return type:**
+`{ slug: string; metadata: T; content: string }`
 
 ---
 
 ### `getAllPostSlugs(directory?)`
 
-Returns the raw filenames (including `.md` extension) from the specified directory.
+Returns all raw filenames (including the `.md` extension) from the specified directory.
 
-```typescript
+```ts
 const slugs = getAllPostSlugs();
 // ['hello-world.md', 'getting-started.md']
 ```
@@ -122,15 +144,16 @@ const slugs = getAllPostSlugs();
 | ----------- | -------- | ---------- | -------------------------------- |
 | `directory` | `string` | `"posts/"` | Path relative to `process.cwd()` |
 
-**Returns:** `string[]`
+**Return type:**
+`string[]`
 
 ---
 
 ### `getAllPostParams(directory?)`
 
-Returns slug parameter objects suitable for use with Next.js `generateStaticParams` or `getStaticPaths`. The `.md` extension is stripped automatically.
+Returns slug parameter objects suitable for Next.js `generateStaticParams` or `getStaticPaths`. Automatically removes the `.md` extension.
 
-```typescript
+```ts
 const params = getAllPostParams();
 // [{ slug: 'hello-world' }, { slug: 'getting-started' }]
 ```
@@ -139,16 +162,17 @@ const params = getAllPostParams();
 | ----------- | -------- | ---------- | -------------------------------- |
 | `directory` | `string` | `"posts/"` | Path relative to `process.cwd()` |
 
-**Returns:** `Array<{ slug: string }>`
+**Return type:**
+`Array<{ slug: string }>`
 
 ---
 
 ### `parseFrontmatter(input)`
 
-Parses a raw markdown string and extracts YAML frontmatter metadata. Useful when you have markdown content not loaded from the filesystem, or when you need lower-level parsing control.
+Parses a raw Markdown string and extracts YAML frontmatter. Useful when Markdown is not loaded from the filesystem or when lower-level control is needed.
 
-```typescript
-import { parseFrontmatter } from "next-staticblog";
+```ts
+import { parseFrontmatter } from "next-posts";
 
 const raw = `---
 title: Hello World
@@ -160,28 +184,27 @@ tags:
 Welcome to my blog!`;
 
 const { data, content } = parseFrontmatter(raw);
-// data:    { title: 'Hello World', date: '2024-01-01', tags: ['blog'] }
-// content: '\nWelcome to my blog!'
 ```
 
-| Parameter | Type     | Description                          |
-| --------- | -------- | ------------------------------------ |
-| `input`   | `string` | Raw markdown string with frontmatter |
+- `data`: Parsed YAML frontmatter object. Returns `{}` if no valid frontmatter exists.
+- `content`: Markdown content with the frontmatter removed.
 
-**Returns:** `{ data: Record<string, unknown>; content: string }`
+| Parameter | Type     | Description                                |
+| --------- | -------- | ------------------------------------------ |
+| `input`   | `string` | Raw Markdown string containing frontmatter |
 
-- `data` — parsed YAML frontmatter as a plain object. Returns `{}` if no valid frontmatter is found.
-- `content` — the markdown body after the frontmatter block.
+**Return type:**
+`{ data: Record<string, unknown>; content: string }`
 
 ---
 
-## Usage with Next.js
+## Using with Next.js
 
-### App Router (Next.js 13+)
+### App Router
 
-```typescript
+```tsx
 // app/blog/[slug]/page.tsx
-import { getAllPostParams, getPostBySlug } from 'next-staticblog';
+import { getAllPostParams, getPostBySlug } from "next-posts";
 
 interface PostMeta {
   title: string;
@@ -192,26 +215,33 @@ export function generateStaticParams() {
   return getAllPostParams();
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
-  const { metadata, content } = getPostBySlug<PostMeta>(params.slug);
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const { metadata, content } = getPostBySlug<PostMeta>(slug);
 
   return (
     <article>
       <h1>{metadata.title}</h1>
       <p>{metadata.date}</p>
-      {/* render content with your preferred markdown renderer */}
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      {/* ReactMarkdown is recommended, but you can use any renderer you prefer */}
+      <ReactMarkdown>{content}</ReactMarkdown>
     </article>
   );
 }
 ```
 
+---
+
 ### Pages Router
 
-```typescript
+```ts
 // pages/blog/[slug].tsx
 import { GetStaticPaths, GetStaticProps } from "next";
-import { getAllPostParams, getPostBySlug } from "next-staticblog";
+import { getAllPostParams, getPostBySlug } from "next-posts";
 
 interface PostMeta {
   title: string;
@@ -229,17 +259,63 @@ export const getStaticProps: GetStaticProps = ({ params }) => {
 };
 ```
 
-### Custom Post Directory
+---
 
-All functions accept an optional `directory` parameter:
+## Custom Post Directory
 
-```typescript
-// Use a custom directory
+All functions accept a custom directory:
+
+```ts
 const posts = getAllPosts("content/articles/");
 const post = getPostBySlug("my-article", "content/articles/");
 ```
 
-## Development
+---
+
+## Migrating from v0.x
+
+Migration is straightforward since most APIs remain compatible.
+
+1. Package rename:
+
+`next-posts` was previously called `next-staticblog`. Simply replace the package name and install the latest version. The old package is deprecated and no longer maintained.
+
+2. Explicit typing:
+
+In `v0.x`, `metadata` was typed as `any`.
+In `v1.x`, it is typed as `unknown` to improve type safety.
+Refer to the documentation on how to pass generics for safe typing.
+
+Additionally, the package removed `gray-matter` and now uses `@std/yaml` for parsing. While all tests pass, there may be minor differences in some non-standard use cases.
+
+---
+
+## FAQ
+
+### no such file or directory
+
+SSG is strongly recommended for maximum efficiency. Using `next-posts` inside dynamic routes may cause errors.
+
+Typically, you only need to combine `getAllPostParams()` with `generateStaticParams()` to enable SSG.
+
+```ts
+Error: ENOENT: no such file or directory, scandir '/var/task/posts/news/zh'
+```
+
+If you insist on using dynamic routes, add the following configuration to `next.config.ts` to ensure Markdown files are included:
+
+```ts
+// next.config.ts
+outputFileTracingIncludes: {
+  "/**": ["./posts/**/*.{md,mdx}"],
+},
+```
+
+---
+
+## Contributing
+
+You can improve this package by reporting issues or submitting new features!
 
 ```bash
 # Install dependencies
@@ -255,6 +331,9 @@ npm test
 npm run format
 ```
 
+---
+
 ## License
 
-MIT © [twyd](https://github.com/yd-tw/next-staticblog)
+MIT © yd-tw
+[https://github.com/yd-tw/next-posts](https://github.com/yd-tw/next-posts)
